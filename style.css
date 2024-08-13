@@ -24,14 +24,14 @@ h2 {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	gap: 0.7em;
-	max-width: 765px;
+	gap: 0.25em;
+	max-width: 566px;
 	margin: auto;
 }
 
 .card {
-	width: 23%;
-	aspect-ratio: 9/16;
+	width: 22%;
+	aspect-ratio: 9/13;
 	background-color: var(--primary);
 	border: 1px solid var(--primary-alt);
 	display: flex;
@@ -41,23 +41,17 @@ h2 {
 	font-size: 2em;
 	cursor: pointer;
 	position: relative;
-	transition: all 250ms ease-in-out;
+	transition: all 260ms ease-in-out;
 	color: var(--contrast);
-}
-
-.card:before {
-	content: "";
-	background-color: var(--secondary);
-	position: absolute;
-	inset: 0;
-	width: 100%;
-	height: 100%;
-	opacity: 0;
-	transition: all 180ms ease-in-out;
-	background-image: url("./assets/capitain.jpg");
+	/* background-image: url("./assets/capitain.jpg"); */
 	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
+.card span {
+	transition: opacity 310ms ease-in-out;
+}
 .card:hover {
 	background-color: var(--primary-alt);
 	font-size: 2.1em;
@@ -74,4 +68,8 @@ h2 {
 
 .card.animate__rotate:hover {
 	box-shadow: 0 0 0 0 var(--secondary);
+}
+
+.card.animate__rotate > span {
+	opacity: 0;
 }
