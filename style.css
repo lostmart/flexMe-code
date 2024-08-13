@@ -1,0 +1,48 @@
+:root {
+	--primary: #27888e;
+	--secondary: #ef516f;
+	--primary-alt: #1b6064;
+	--contrast: #ededed;
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	font-family: "Anek Devanagari", sans-serif;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 8px;
+}
+
+h1,
+h2 {
+	margin-top: 0;
+	margin-bottom: 0.125em;
+}
+
+.card_container {
+}
+
+.card {
+}
+
+.card:before {
+}
+
+.card:hover {
+	background-color: var(--primary-alt);
+	font-size: 2.1em;
+	box-shadow: 0 0 2px 2px var(--secondary);
+}
+
+.animate__rotate {
+	transform: rotateY(180deg);
+}
+
+.card.animate__rotate:before {
+	opacity: 1;
+}
+
+.card.animate__rotate:hover {
+	box-shadow: 0 0 0 0 var(--secondary);
+}
