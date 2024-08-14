@@ -18,6 +18,9 @@ cardsArray.forEach((card, indx) => {
 function handleCardClick(card, e, indx) {
 	const isActivated = e.target.getAttribute("data-rotate") === "true"
 
+	// check number of turned cards
+	if (gameState.numberOfTurnedCards === 2) return
+
 	const selectedHero = combinedArray[indx].heroName
 	gameState.selectedHeroes.push(selectedHero)
 	gameState.numberOfTurnedCards++
@@ -25,8 +28,6 @@ function handleCardClick(card, e, indx) {
 
 	// checks if already turned
 	if (e.target.matches(".animate__rotate")) return
-	// check number of turned cards
-	// if (gameState.numberOfTurnedCards === 2) return
 
 	if (!isActivated) {
 		e.target.setAttribute("data-rotate", "true")
@@ -40,11 +41,18 @@ function handleCardClick(card, e, indx) {
 	if (gameState.selectedHeroes.length >= 2) {
 		checkCorrect()
 	}
+	// set end to game
+	if (gameState.finishedCards === 6) {
+		document.querySelector(".modal").style.display = "flex"
+		document
+			.querySelector(".modal")
+			.querySelector("h2")
+			.classList.add("boundInClass")
+	}
 }
 
 function checkCorrect() {
 	if (gameState.selectedHeroes[0] === gameState.selectedHeroes[1]) {
-		console.log("good !!!")
 		cardsArray.forEach((card) => {
 			if (card.getAttribute("data-rotate") === "true") {
 				card.classList.add("done")
@@ -52,24 +60,23 @@ function checkCorrect() {
 		})
 		gameState.selectedHeroes = []
 		gameState.numberOfTurnedCards = 0
+		gameState.finishedCards++
 	} else {
-		console.log("wrong !!!")
 		setTimeout(() => {
 			cardsArray.forEach((card) => {
-				console.log("running")
-
 				if (card.matches(".done")) return
 				if (card.getAttribute("data-rotate")) {
 					card.setAttribute("data-rotate", "false")
 					card.classList.remove("animate__rotate")
 					gameState.selectedHeroes = []
 					gameState.numberOfTurnedCards = 0
-					setTimeout(() => {
+					const rotateCard = setTimeout(() => {
 						card.style.backgroundImage = "none"
+						clearTimeout(rotateCard)
 					}, 130)
 				}
 			})
-		}, 1500)
+		}, 900)
 	}
 }
 
@@ -77,5 +84,6 @@ function logDebug() {
 	console.table({
 		selectedHeroes: gameState.selectedHeroes,
 		numberOfTurnedCards: gameState.numberOfTurnedCards,
+		finishedCards: gameState.finishedCards,
 	})
 }
