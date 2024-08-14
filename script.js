@@ -1,47 +1,42 @@
-const imagesArray = [
-	{ heroName: "capitain", imageUrl: "capitain.jpg" },
-	{ heroName: "ironman", imageUrl: "ironman.jpg" },
-	{ heroName: "spiderman", imageUrl: "spider.jpg" },
-	{ heroName: "strange", imageUrl: "strange.jpg" },
-	{ heroName: "thor", imageUrl: "thor.jpg" },
-	{ heroName: "widow", imageUrl: "widow.jpg" },
-]
+const cardsArray = document.querySelectorAll(".card")
 
-const shuffleArraySort = (array) => {
-	return array.sort(() => Math.random() - 0.5)
+// State management within an object
+const gameState = {
+	selectedHeroes: [],
+	numberOfTurnedCards: 0,
+	activeCardIndex: null,
 }
-const copiedArray = [...imagesArray]
 
-const shuffledArrOne = shuffleArraySort(copiedArray)
-
-const shuffledArr = shuffleArraySort(imagesArray)
-
-const cards_array = document.querySelectorAll(".card")
-
-const combinedArray = shuffledArrOne.concat(shuffledArr)
-
-cards_array.forEach((card, indx) => {
+// Add event listeners to each card
+cardsArray.forEach((card, indx) => {
 	card.addEventListener("click", (e) => {
-		if (e.target.getAttribute("data-rotate") === "false") {
-			card.classList.add("animate__rotate")
-			e.target.setAttribute("data-rotate", "true")
-			setTimeout(() => {
-				card.style.backgroundImage = `url("./assets/${combinedArray[indx].imageUrl}")`
-			}, 130)
-		} else {
-			card.classList.remove("animate__rotate")
-			e.target.setAttribute("data-rotate", "false")
-			setTimeout(() => {
-				card.style.backgroundImage = "none"
-			}, 130)
-
-			clearTimeout()
-		}
+		handleCardClick(card, e, indx)
 	})
 })
 
-/*  dynamic card population  */
-// for (let index = 0; index < imagesArray.length; index++) {
-// 	const hero = imagesArray[index]
-// 	cards_array[index].style.backgroundImage = `url("./assets/${hero.imageUrl}")`
-// }
+// Handle card click
+function handleCardClick(card, e, indx) {
+	const isActivated = e.target.getAttribute("data-rotate") === "true"
+
+	if (!isActivated) {
+		e.target.setAttribute("data-rotate", "true")
+		card.classList.add("animate__rotate")
+		setTimeout(() => {
+			card.style.backgroundImage = `url("./assets/${combinedArray[indx].imageUrl}")`
+		}, 130)
+	} else {
+		e.target.setAttribute("data-rotate", "false")
+		card.classList.remove("animate__rotate")
+		setTimeout(() => {
+			card.style.backgroundImage = "none"
+		}, 130)
+	}
+	logDebug()
+}
+
+function logDebug() {
+	console.table({
+		selectedHeroes: gameState.selectedHeroes,
+		numberOfTurnedCards: gameState.numberOfTurnedCards,
+	})
+}
